@@ -1,12 +1,18 @@
+import { FaChevronRight } from "react-icons/fa";
 import { FcMusic } from "react-icons/fc";
 const Sidebar = () => {
   return (
     <div className="bg-base-100 h-screen w-[17%]">
-      <div className="p-3 bg-base-300 rounded-lg inline-block m-2">
-        <FcMusic size={30} />
+      <div className="flex justify-between items-center px-2 pt-2">
+        <div className="p-3 bg-base-300 rounded-lg inline-block border border-neutral-200 rounded-xl">
+          <FcMusic size={30} />
+        </div>
+        <button className="btn btn-square rounded-xl">
+          <FaChevronRight />
+        </button>
       </div>
-      <ul className="menu rounded-box w-full flex flex-col gap-2">
-        <li className="bg-base-200 shadow-md px-3 py-1 rounded-lg text-md font-semibold">
+      <ul className="menu rounded-box w-full flex flex-col gap-2 text-base">
+        <li className="bg-base-200 shadow-md px-3 py-1 rounded-xl text-md font-semibold">
           <a className="flex items-center gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +31,7 @@ const Sidebar = () => {
             Item 2
           </a>
         </li>
-        <li className="px-3 py-1 rounded-lg text-md font-semibold">
+        <li className="px-3 py-1 rounded-xl text-md font-semibold">
           <a className="flex items-center gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +50,7 @@ const Sidebar = () => {
             Item 1
           </a>
         </li>
-        <li className="px-3 py-1 rounded-lg text-md font-semibold">
+        <li className="px-3 py-1 rounded-xl text-md font-semibold">
           <a className="flex items-center gap-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"

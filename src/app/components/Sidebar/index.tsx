@@ -14,7 +14,7 @@ import SidebarItem from "./SidebarItem";
 const Sidebar = () => {
   const pathname = usePathname();
   return (
-    <div className="bg-base-100 h-screen w-[14%] flex flex-col gap-5">
+    <div className="bg-base-100 h-screen w-[14%] flex flex-col gap-5 sticky top-0 left-0">
       <div className="flex justify-between items-center px-2 pt-2">
         <div className="p-3 bg-base-300 inline-block border border-neutral-200 rounded-xl">
           <IoLibraryOutline size={30} />

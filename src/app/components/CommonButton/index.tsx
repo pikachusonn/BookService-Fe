@@ -4,10 +4,11 @@ interface ICommonButtonProps {
   text: string;
   icon?: React.ReactNode;
   mode?: string; // e.g., "primary", "secondary", etc.
-  classNames?: string
+  classNames?: string;
+  onClick?: () => void;
 }
 
-const CommonButton = ({ text, icon, mode, classNames }: ICommonButtonProps) => {
+const CommonButton = ({ text, icon, mode, classNames, onClick }: ICommonButtonProps) => {
   return (
     <button
       className={clsx(
@@ -15,6 +16,7 @@ const CommonButton = ({ text, icon, mode, classNames }: ICommonButtonProps) => {
         mode ? `btn-${mode}` : "btn-primary",
         classNames
       )}
+      onClick={onClick}
     >
       {icon}
       {text}

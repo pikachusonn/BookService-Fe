@@ -10,3 +10,8 @@ export interface IBookFilterRequest extends IPagination {
   id?: string;
   category?: string;
 }
+
+export interface ILoginRequest {
+  username: string,
+  password: string,
+}

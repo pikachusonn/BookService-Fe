@@ -1,11 +1,21 @@
-import { IoAdd, IoLogInOutline, IoSearchOutline } from "react-icons/io5";
+import {
+  IoAdd,
+  IoLogInOutline,
+  IoLogOutOutline,
+  IoSearchOutline,
+} from "react-icons/io5";
 import { RiHome4Line } from "react-icons/ri";
 import CommonIconButton from "../CommonIconButton";
 import { HiOutlineBell } from "react-icons/hi2";
 import CommonAvatar from "../CommonAvatar";
 import CommonButton from "../CommonButton";
+import { useRouter } from "next/navigation";
+import { FiUser } from "react-icons/fi";
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 const Header = () => {
   const userInfo = localStorage.getItem("userInfo");
+  const router = useRouter();
   return (
     <div className="flex items-center justify-between p-4">
       <div className="breadcrumbs text-lg font-md">
@@ -28,16 +38,48 @@ const Header = () => {
         </label>
         <CommonButton icon={<IoAdd size={15} />} text="Create" />
         <CommonIconButton icon={<HiOutlineBell size={20} className="" />} />
-        {true ? (
-          <CommonAvatar
-            src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp"
-            classNames="border-2 border-black/40 hover:border-success transition duration-500 cursor-pointer"
-          />
+        {!!userInfo ? (
+          <div className="dropdown dropdown-end">
+            <CommonAvatar
+              src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp"
+              classNames="border-2 border-black/40 hover:border-success transition duration-500 cursor-pointer"
+            />
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu rounded-box z-1 w-52 p-2 shadow-lg border bg-white border-black/20 relative top-[50px]"
+            >
+              <li>
+                <a className="w-full flex items-center justify-between">
+                  <span>Profile</span>
+                  <FiUser size={20} />
+                </a>
+              </li>
+              <li>
+                <a
+                  className="w-full flex items-center justify-between"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    localStorage.removeItem("userInfo");
+                    Cookies.remove("accessToken");
+                    toast.success("Logged out");
+                    router.replace("/");
+                    window.location.reload();
+                  }}
+                >
+                  <span>Logout</span>
+                  <IoLogOutOutline size={20} />
+                </a>
+              </li>
+            </ul>
+          </div>
         ) : (
           <CommonButton
             classNames="btn-outline"
             icon={<IoLogInOutline size={20} />}
             text="Login"
+            onClick={() => {
+              router.push("/auth/login");
+            }}
           />
         )}
       </div>

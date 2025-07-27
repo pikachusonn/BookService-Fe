@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface IPagination {
   pageIndex: number;
   pageSize: number;
@@ -12,6 +14,11 @@ export interface IBookFilterRequest extends IPagination {
 }
 
 export interface ILoginRequest {
-  username: string,
-  password: string,
+  username: string;
+  password: string;
+}
+
+export interface ISelectOptions {
+  value: any;
+  label: string | React.ReactNode;
 }

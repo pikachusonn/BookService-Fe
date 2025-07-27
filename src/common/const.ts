@@ -1,3 +1,35 @@
 export const QUERY_KEYS = {
-    BOOK_LIST: 'bookList'
-}
+  BOOK_LIST: "bookList",
+};
+
+export const CATEGORIES = {
+  action: "Action",
+  adventure: "Adventure",
+  comedy: "Comedy",
+  drama: "Drama",
+  fantasy: "Fantasy",
+  horror: "Horror",
+  mystery: "Mystery",
+  romance: "Romance",
+  sciFi: "Sci-Fi",
+  sliceOfLife: "Slice of Life",
+  sports: "Sports",
+  supernatural: "Supernatural",
+  thriller: "Thriller",
+  historical: "Historical",
+  psychological: "Psychological",
+  school: "School",
+  martialArts: "Martial Arts",
+  isekai: "Isekai",
+  mecha: "Mecha",
+  shounen: "Shounen",
+  shoujo: "Shoujo",
+  seinen: "Seinen",
+  josei: "Josei",
+  ecchi: "Ecchi",
+  harem: "Harem",
+  tragedy: "Tragedy",
+  vampire: "Vampire",
+  demons: "Demons",
+  music: "Music",
+};

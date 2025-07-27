@@ -4,7 +4,7 @@ interface ICommonAvatarProps {
   src: string;
   alt?: string;
   width?: number;
-  classNames: string;
+  classNames?: string;
 }
 const CommonAvatar = ({
   src,

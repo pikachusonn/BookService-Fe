@@ -23,7 +23,7 @@ const BookItem = ({ book }: IBookItem) => {
           className="w-full h-full rounded-lg"
         />
       </div>
-      <h5 className="font-semibold">{book?.name}</h5>
+      <h5 className="font-semibold truncate w-[90%] text-center">{book?.name}</h5>
       <span className="text-sm">Chapter 85</span>
     </div>
   );

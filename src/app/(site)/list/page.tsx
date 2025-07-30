@@ -60,14 +60,12 @@ const List = () => {
   ];
   const [currentIndex, setCurrentIndex] = useState<number>(1);
   const { data: bookList, isLoading } = useGetBooks({
-    pageIndex: 0,
-    pageSize: 10,
+    pageIndex: currentIndex - 1,
+    pageSize: 14,
   });
 
-  const bookListPlaceHolder =
-    bookList && bookList?.data?.data[0]
-      ? Array.from({ length: 14 }, () => ({ ...bookList?.data?.data[0] }))
-      : [];
+  const metaData = bookList?.data?.metadata;
+
   return (
     <div className="p-5">
       <div className="w-full flex items-end justify-end gap-5">
@@ -92,10 +90,10 @@ const List = () => {
       </div>
       <div className="flex pt-5 flex-wrap items-center xl:gap-2 py-3">
         {!isLoading
-          ? bookListPlaceHolder?.map((book) => (
+          ? bookList?.data?.data?.map((book) => (
               <BookItem book={book} key={book?.id} />
             ))
-          : Array.from({ length: 8 }).map((_, index) => (
+          : Array.from({ length: 14 }).map((_, index) => (
               <div key={index} className="flex w-[220px] flex-col gap-4">
                 <div className="skeleton h-[330px] w-full"></div>
                 <div className="skeleton h-4 w-28"></div>
@@ -106,7 +104,7 @@ const List = () => {
       </div>
       <div className="flex justify-end">
         <CommonPagination
-          maxPage={100}
+          maxPage={metaData?.totalPages}
           onChange={setCurrentIndex}
           currentIndex={currentIndex}
         />

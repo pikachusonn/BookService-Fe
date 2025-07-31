@@ -2,43 +2,16 @@
 "use client";
 import BookItem from "@/app/components/BookItem";
 import CommonButton from "@/app/components/CommonButton";
+import CommonModal from "@/app/components/CommonModal";
 import CommonPagination from "@/app/components/CommonPagination";
 import CommonSelect from "@/app/components/CommonSelect";
 import { CATEGORIES } from "@/common/const";
 import { useGetBooks } from "@/hook/book";
+import clsx from "clsx";
 import { useState } from "react";
 import { CiFilter } from "react-icons/ci";
 import { FaSortAmountDown } from "react-icons/fa";
-const CommonModal = () => {
-  return (
-    <dialog id="filterModal" className="modal">
-      <div className="modal-box bg-base-200 border border-black/20">
-        <form method="dialog">
-          {/* if there is a button in form, it will close the modal */}
-          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-            ✕
-          </button>
-        </form>
-        <h3 className="font-bold text-lg flex items-center gap-3">
-          Categories <CiFilter />
-        </h3>
-        <div className="flex flex-wrap gap-2 py-5">
-          {Object.entries(CATEGORIES).map(([key, value]) => (
-            <span
-              key={key}
-              className="px-[10px] py-[3px] border border-black rounded-full"
-            >
-              {value}
-            </span>
-          ))}
-        </div>
-        <div className="flex items-end">
-          <CommonButton text="Save" />
-        </div>
-      </div>
-    </dialog>
-  );
-};
+
 const List = () => {
   const sortOptions = [
     {
@@ -58,10 +31,13 @@ const List = () => {
       label: "Best Seller",
     },
   ];
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+  const [innerCategoryFilter, setInnerCategoryFilter] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(1);
   const { data: bookList, isLoading } = useGetBooks({
     pageIndex: currentIndex - 1,
     pageSize: 14,
+    category: categoryFilter.join(","),
   });
 
   const metaData = bookList?.data?.metadata;
@@ -103,13 +79,60 @@ const List = () => {
             ))}
       </div>
       <div className="flex justify-end">
-        <CommonPagination
-          maxPage={metaData?.totalPages}
-          onChange={setCurrentIndex}
-          currentIndex={currentIndex}
-        />
+        {metaData && (
+          <CommonPagination
+            maxPage={metaData?.totalPages}
+            onChange={setCurrentIndex}
+            currentIndex={currentIndex}
+          />
+        )}
       </div>
-      <CommonModal />
+      <CommonModal id="filterModal">
+        <h3 className="font-bold text-lg flex items-center gap-3">
+          Categories <CiFilter />
+        </h3>
+        <div className="flex flex-wrap gap-2 py-5">
+          {CATEGORIES.map((c) => (
+            <span
+              key={c}
+              className={clsx(
+                "px-[10px] py-[3px] border border-black rounded-full cursor-pointer",
+                {
+                  ["bg-black text-white"]: innerCategoryFilter?.includes(c),
+                }
+              )}
+              onClick={() => {
+                if (innerCategoryFilter?.includes(c)) {
+                  setInnerCategoryFilter(
+                    innerCategoryFilter?.filter((ic) => ic !== c)
+                  );
+                } else {
+                  setInnerCategoryFilter([...innerCategoryFilter, c]);
+                }
+              }}
+            >
+              {c}
+            </span>
+          ))}
+        </div>
+        <div className="flex justify-end gap-2">
+          <CommonButton
+            text="Clear"
+            mode="error"
+            classNames="bt-outline"
+            onClick={() => {
+              setCategoryFilter([]);
+              setInnerCategoryFilter([]);
+            }}
+          />
+          <CommonButton
+            text="Save"
+            onClick={() => {
+              setCategoryFilter(innerCategoryFilter);
+            }}
+          />
+        </div>
+      </CommonModal>
     </div>
   );
 };

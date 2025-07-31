@@ -8,13 +8,8 @@ import { HiOutlineBell } from "react-icons/hi2";
 const NewlyUpdatedBooks = () => {
   const { data: bookList, isLoading } = useGetBooks({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 14,
   });
-
-  const bookListPlaceHolder =
-    bookList && bookList?.data?.data[0]
-      ? Array.from({ length: 20 }, () => ({ ...bookList?.data?.data[0] }))
-      : [];
 
   return (
     <div className="w-full p-4">
@@ -25,9 +20,9 @@ const NewlyUpdatedBooks = () => {
         </div>
         Newly Updated Books
       </div>
-      <div className="flex pt-5 flex-wrap items-center xl:gap-6 2xl:gap-7 p-3">
+      <div className="flex pt-5 flex-wrap items-center gap-1 p-3">
         {!isLoading
-          ? bookListPlaceHolder?.map((book) => (
+          ? bookList?.data?.data?.map((book) => (
               <BookItem book={book} key={book?.id} />
             ))
           : Array.from({ length: 8 }).map((_, index) => (

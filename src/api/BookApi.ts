@@ -6,4 +6,8 @@ export const bookApi = {
       params,
     });
   },
+
+  getBookDeDetail: (id: string) => {
+    return instance.get(`api/v1/library/book/${id}`);
+  },
 };

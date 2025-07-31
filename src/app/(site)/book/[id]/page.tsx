@@ -8,22 +8,20 @@ import { MdOutlineOnlinePrediction } from "react-icons/md";
 import { IoIosHeartEmpty } from "react-icons/io";
 import CommonAvatar from "@/app/components/CommonAvatar";
 import CommonPagination from "@/app/components/CommonPagination";
+import { useParams } from "next/navigation";
+import { useGetBooksDetail } from "@/hook/book";
 /* eslint-disable @next/next/no-img-element */
 const BookDetail = () => {
-  const categories = [
-    { id: 1, name: "Action" },
-    { id: 2, name: "Dark Fantasy" },
-    { id: 3, name: "Drama" },
-    { id: 4, name: "Shōnen" },
-  ];
-
+  const { id } = useParams();
+  const { data: bookDetail } = useGetBooksDetail(id as string);
   return (
     <div className="p-4">
       <div className="flex items-start">
         <div className="w-[20%] p-3 flex flex-col gap-5">
           <img
             src={
-              "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781974736485/akane-banashi-vol-1-9781974736485_hr.jpg"
+              bookDetail?.data?.data?.coverImg ||
+              "https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
             }
             alt="cover"
             className={clsx("w-full border-2 border-black", styles.coverImage)}
@@ -33,7 +31,9 @@ const BookDetail = () => {
         <div className="flex items-start flex-1 h-full">
           <div className="p-4 w-[75%]">
             <div className="p-3 shadow-md [mask-image:linear-gradient(to_right,black,transparent)]">
-              <h3 className="text-3xl font-bold">Kagurabachi</h3>
+              <h3 className="text-3xl font-bold">
+                {bookDetail?.data?.data?.name}
+              </h3>
             </div>
             <div className="p-4 flex items-start gap-[25px]">
               <div className="flex flex-col gap-3 font-semibold text-lg">
@@ -59,20 +59,27 @@ const BookDetail = () => {
                   <CommonAvatar
                     classNames="border-2 border-red-400/50"
                     width={30}
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVI6j0QDfGmWZf04gzRasbKnvhhad9mpR7Hw&s"
+                    src={
+                      bookDetail?.data?.data?.publisher?.user?.avatar ||
+                      "https://www.svgrepo.com/show/508699/landscape-placeholder.svg"
+                    }
                   />
-                  Takeru Hokazono
+                  {bookDetail?.data?.data?.publisher?.user?.username}
                 </div>
                 <span className="text-success h-[25px] leading-[25px]">
                   OnGoing
                 </span>
-                <span className="h-[25px] leading-[25px]">3000</span>
-                <span className="h-[25px] leading-[25px]">12000</span>
+                <span className="h-[25px] leading-[25px]">
+                  {bookDetail?.data?.data?.favorites?.length}
+                </span>
+                <span className="h-[25px] leading-[25px]">
+                  {bookDetail?.data?.data?.viewCount}
+                </span>
               </div>
               <div></div>
             </div>
             <div className="flex items-center flex-wrap gap-2 text-sm px-4">
-              {categories?.map((c) => (
+              {bookDetail?.data?.data?.categories?.map((c) => (
                 <span
                   className="px-3 py-1 rounded-sm border border-orange-400 hover:text-white hover:bg-orange-400 cursor-pointer"
                   key={c?.id}
@@ -117,14 +124,14 @@ const BookDetail = () => {
         </div>
       </div>
       <h3 className="text-xl font-semibold text-neutral-500 px-4">
-        CHAPTER LIST (5)
+        CHAPTER LIST ({bookDetail?.data?.data?.chapters?.length})
       </h3>
       <div className="divider"></div>
       <div className="flex items-start gap-5">
         <div className="w-[60%]">
           <div className="flex flex-col gap-4">
-            {Array.from({ length: 5 })?.map((_, i) => (
-              <div key={i} className="flex h-[150px] bg-base-200">
+            {bookDetail?.data?.data?.chapters?.map((c, index) => (
+              <div key={c?.id} className="flex h-[150px] bg-base-200">
                 <img
                   src={
                     "https://i.pinimg.com/236x/b4/23/17/b4231794b6024464c3075ff340656508.jpg"
@@ -133,9 +140,9 @@ const BookDetail = () => {
                 />
                 <div className="flex flex-col h-full p-3 justify-between">
                   <div>
-                    <h5 className="text-xl font-semibold">#00{i + 1}</h5>
+                    <h5 className="text-xl font-semibold">#00{index + 1}</h5>
                     <span className="text-mute text-neutral-500 text-sm">
-                      Chapter {i + 1}: Crimson Wing
+                      Chapter {index + 1}: {c?.chapter_name}
                     </span>
                   </div>
                   <span className="text-mute text-neutral-500 text-sm">
@@ -145,7 +152,14 @@ const BookDetail = () => {
               </div>
             ))}
           </div>
-          <CommonPagination currentIndex={1} maxPage={10} onChange={() => {}} classnames="pt-5"/>
+          {bookDetail?.data?.data?.chapters?.length > 5 && (
+            <CommonPagination
+              currentIndex={1}
+              maxPage={10}
+              onChange={() => {}}
+              classnames="pt-5"
+            />
+          )}
         </div>
         <div className="flex-1">
           <h3 className="text-lg font-medium text-neutral-500">COMMENTS (0)</h3>

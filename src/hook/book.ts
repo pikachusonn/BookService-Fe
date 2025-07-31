@@ -8,3 +8,10 @@ export const useGetBooks = (params: IBookFilterRequest) => {
     queryFn: () => bookApi.getBook(params),
   });
 };
+
+export const useGetBooksDetail = (id: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.BOOK_DETAIL, id],
+    queryFn: () => bookApi.getBookDeDetail(id),
+  });
+};

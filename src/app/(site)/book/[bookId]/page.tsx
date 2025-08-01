@@ -8,12 +8,13 @@ import { MdOutlineOnlinePrediction } from "react-icons/md";
 import { IoIosHeartEmpty } from "react-icons/io";
 import CommonAvatar from "@/app/components/CommonAvatar";
 import CommonPagination from "@/app/components/CommonPagination";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useGetBooksDetail } from "@/hook/book";
 /* eslint-disable @next/next/no-img-element */
 const BookDetail = () => {
-  const { id } = useParams();
-  const { data: bookDetail } = useGetBooksDetail(id as string);
+  const { bookId } = useParams();
+  const { data: bookDetail } = useGetBooksDetail(bookId as string);
+  const router = useRouter();
   return (
     <div className="p-4">
       <div className="flex items-start">
@@ -131,11 +132,15 @@ const BookDetail = () => {
         <div className="w-[60%]">
           <div className="flex flex-col gap-4">
             {bookDetail?.data?.data?.chapters?.map((c, index) => (
-              <div key={c?.id} className="flex h-[150px] bg-base-200">
+              <div
+                key={c?.id}
+                className="flex h-[150px] bg-base-200 cursor-pointer rounded border border-base-100 hover:border-blue-500"
+                onClick={() => {
+                  router.push(`/chapter/${c?.id}`);
+                }}
+              >
                 <img
-                  src={
-                    "https://i.pinimg.com/236x/b4/23/17/b4231794b6024464c3075ff340656508.jpg"
-                  }
+                  src={c?.coverImage}
                   className="object-center object-cover h-full aspect-square"
                 />
                 <div className="flex flex-col h-full p-3 justify-between">

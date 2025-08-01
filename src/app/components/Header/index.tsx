@@ -14,8 +14,14 @@ import { useRouter } from "next/navigation";
 import { FiUser } from "react-icons/fi";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 const Header = () => {
-  const userInfo = localStorage.getItem("userInfo");
+  const [userInfo, setUserInfo] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("userInfo");
+    setUserInfo(storedUser);
+  }, []);
   const router = useRouter();
   return (
     <div className="flex items-center justify-between p-4">

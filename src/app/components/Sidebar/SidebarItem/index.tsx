@@ -5,12 +5,20 @@ interface SidebarItemProps {
   href?: string;
   label: string;
   icon: React.ReactNode;
+  open: boolean;
   active?: boolean;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ href, label, icon, active }) => {
-  const baseClass = "px-3 py-1 rounded-xl text-md font-semibold flex items-center gap-3";
-  const activeClass = active ? "bg-base-200 shadow-md" : "";
+const SidebarItem: React.FC<SidebarItemProps> = ({
+  href,
+  label,
+  icon,
+  active,
+  open,
+}) => {
+  const baseClass =
+    "px-3 py-1 rounded-xl text-md font-semibold flex items-center gap-3";
+  const activeClass = active ? "bg-white shadow-md" : "";
   const className = `${baseClass} ${activeClass}`;
 
   if (href) {
@@ -18,7 +26,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ href, label, icon, active }) 
       <li className={className}>
         <Link className="flex items-center gap-3 w-full" href={href}>
           {icon}
-          {label}
+          {open ? label : ""}
         </Link>
       </li>
     );
@@ -27,7 +35,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ href, label, icon, active }) 
     <li className={className}>
       <span className="flex items-center gap-3 w-full">
         {icon}
-        {label}
+        {open ? label : ""}
       </span>
     </li>
   );

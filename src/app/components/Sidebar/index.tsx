@@ -10,16 +10,29 @@ import { GrStorage } from "react-icons/gr";
 import { RiHome4Line, RiSettings3Line } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import SidebarItem from "./SidebarItem";
+import { useState } from "react";
+import clsx from "clsx";
 
 const Sidebar = () => {
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
   return (
-    <div className="bg-base-100 h-screen w-[14%] flex flex-col gap-5 sticky top-0 left-0">
+    <div
+      className={clsx(
+        "bg-base-100 h-screen flex flex-col gap-5 sticky top-0 left-0",
+        open ? "w-[14%]" : "w-[5%] border-r border-black/30"
+      )}
+    >
       <div className="flex justify-between items-center px-2 pt-2">
         <div className="p-3 bg-base-300 inline-block border border-neutral-200 rounded-xl">
           <IoLibraryOutline size={30} />
         </div>
-        <button className="btn btn-square rounded-xl">
+        <button
+          className="btn btn-square rounded-xl"
+          onClick={() => {
+            setOpen(!open);
+          }}
+        >
           <FaChevronRight />
         </button>
       </div>
@@ -29,24 +42,28 @@ const Sidebar = () => {
           label="HomePage"
           icon={<RiHome4Line size={20} />}
           active={pathname === "/"}
+          open={open}
         />
         <SidebarItem
           href="/my-library"
           label="My Library"
           icon={<GrStorage size={20} />}
           active={pathname === "/my-library"}
+          open={open}
         />
         <SidebarItem
           label="Feeds"
           icon={<IoShareSocialOutline size={20} />}
           active={pathname === "/feeds"}
           href="/feeds"
+          open={open}
         />
         <SidebarItem
           href="/leaderboard"
           label="Leaderboard"
           icon={<IoBarChartOutline size={20} />}
           active={pathname === "/leaderboard"}
+          open={open}
         />
         <SidebarItem
           href="/events"
@@ -68,18 +85,21 @@ const Sidebar = () => {
             </svg>
           }
           active={pathname === "/events"}
+          open={open}
         />
         <SidebarItem
           href="/calendar"
           label="Calendar"
           icon={<IoCalendarOutline size={20} />}
           active={pathname === "/calendar"}
+          open={open}
         />
         <SidebarItem
           href="/settings"
           label="Settings"
           icon={<RiSettings3Line size={20} />}
           active={pathname === "/settings"}
+          open={open}
         />
       </ul>
     </div>

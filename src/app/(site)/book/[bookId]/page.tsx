@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-"use client";
+
 import CommonButton from "@/app/components/CommonButton";
 import clsx from "clsx";
 import styles from "./styles.module.scss";

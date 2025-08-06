@@ -29,7 +29,7 @@ const Login = () => {
             let&apos;s get you in for some reading
           </span>
           <form className="w-full" onSubmit={handleSubmit}>
-            <fieldset className="fieldset border border-primary/30 shadow-lg p-4 rounded-lg">
+            <fieldset className="fieldset border border-primary/30 shadow-lg p-4 rounded-lg bg-white">
               <legend className="fieldset-legend text-lg font-semibold mb-2">
                 Login
               </legend>

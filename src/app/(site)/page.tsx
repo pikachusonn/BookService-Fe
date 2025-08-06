@@ -58,11 +58,11 @@ export default function Home() {
             <UpcommingEvents />
           </div>
         </div>
-        <div className="bg-base-200 w-full rounded-3xl border border-black/20">
+        <div className="bg-base-200 w-full rounded-3xl border border-black/20 pb-4">
           <NewlyUpdatedBooks />
         </div>
       </div>
-      <div className="bg-base-200 rounded-3xl h-[88vh] w-1/5 sticky top-0 right-0 border border-black/20"></div>
+      <div className="bg-base-200 rounded-3xl h-[97vh] w-1/5 sticky top-3 right-0 border border-black/20"></div>
     </div>
   );
 }

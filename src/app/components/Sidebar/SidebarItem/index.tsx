@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import Link from "next/link";
 import React from "react";
 
@@ -24,7 +25,14 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   if (href) {
     return (
       <li className={className}>
-        <Link className="flex items-center gap-3 w-full" href={href}>
+        <Link
+          className={clsx(
+            "flex items-center gap-3 w-full",
+            active && "bg-transparent",
+            !open && "justify-center"
+          )}
+          href={href}
+        >
           {icon}
           {open ? label : ""}
         </Link>

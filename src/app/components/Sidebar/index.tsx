@@ -5,23 +5,53 @@ import {
   IoLibraryOutline,
   IoShareSocialOutline,
 } from "react-icons/io5";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { GrStorage } from "react-icons/gr";
 import { RiHome4Line, RiSettings3Line } from "react-icons/ri";
 import { usePathname } from "next/navigation";
 import SidebarItem from "./SidebarItem";
-
+import { useState } from "react";
+import clsx from "clsx";
+import styles from "./styles.module.scss";
 const Sidebar = () => {
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
   return (
-    <div className="bg-base-100 h-screen w-[14%] flex flex-col gap-5 sticky top-0 left-0">
-      <div className="flex justify-between items-center px-2 pt-2">
+    <div
+      className={clsx(
+        "bg-base-100 h-screen flex flex-col gap-5 sticky top-0 left-0 transition-all duration-250 border-r border-black/20",
+        open ? "w-[14%]" : "w-[5%]",
+        open && styles.openSidebar && styles.closedSidebar
+      )}
+    >
+      <div
+        className={clsx(
+          "flex justify-between items-center px-2 pt-2 relative",
+          open ? "justify-between" : "justify-center"
+        )}
+      >
         <div className="p-3 bg-base-300 inline-block border border-neutral-200 rounded-xl">
           <IoLibraryOutline size={30} />
         </div>
-        <button className="btn btn-square rounded-xl">
-          <FaChevronRight />
-        </button>
+        {open ? (
+          <button
+            className="btn btn-square rounded-full w-[30px] h-[30px] "
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            <FaChevronLeft />
+          </button>
+        ) : (
+          <button
+            className="btn btn-square rounded-full absolute right-[-15px] top-[20px] w-[30px] h-[30px] border border-black/20"
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            <FaChevronRight />
+          </button>
+        )}
       </div>
       <ul className="menu rounded-box w-full flex flex-col gap-3">
         <SidebarItem
@@ -29,24 +59,28 @@ const Sidebar = () => {
           label="HomePage"
           icon={<RiHome4Line size={20} />}
           active={pathname === "/"}
+          open={open}
         />
         <SidebarItem
           href="/my-library"
           label="My Library"
           icon={<GrStorage size={20} />}
           active={pathname === "/my-library"}
+          open={open}
         />
         <SidebarItem
           label="Feeds"
           icon={<IoShareSocialOutline size={20} />}
           active={pathname === "/feeds"}
           href="/feeds"
+          open={open}
         />
         <SidebarItem
           href="/leaderboard"
           label="Leaderboard"
           icon={<IoBarChartOutline size={20} />}
           active={pathname === "/leaderboard"}
+          open={open}
         />
         <SidebarItem
           href="/events"
@@ -68,18 +102,21 @@ const Sidebar = () => {
             </svg>
           }
           active={pathname === "/events"}
+          open={open}
         />
         <SidebarItem
           href="/calendar"
           label="Calendar"
           icon={<IoCalendarOutline size={20} />}
           active={pathname === "/calendar"}
+          open={open}
         />
         <SidebarItem
           href="/settings"
           label="Settings"
           icon={<RiSettings3Line size={20} />}
           active={pathname === "/settings"}
+          open={open}
         />
       </ul>
     </div>

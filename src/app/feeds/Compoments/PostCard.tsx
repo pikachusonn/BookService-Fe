@@ -2,7 +2,7 @@
 'use client';
 
 import Image from 'next/image';
-import type { Post } from './action';
+import { Post } from '@/common/interface';
 import Link from 'next/link';
 import ImageGrid from './ImageGrid';
 import { toggleLike } from './action';
@@ -28,7 +28,7 @@ const ShareIcon = () => (
 );
 
 
-export default function PostCard({ post }: { post: Post & { userId?: number } }) {
+export default function PostCard({ post }: { post: Post}) {
   // State để quản lý tương tác
   const [isLiked, setIsLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -77,22 +77,22 @@ export default function PostCard({ post }: { post: Post & { userId?: number } })
           <div className="flex items-center gap-3 mb-4">
             <div className="avatar">
               <div className="w-10 rounded-full">
-                <img src={`https://i.pravatar.cc/40?u=${post.userId || post.id}`} alt="Author Avatar" width={40} height={40} />
+                <img src={`https://i.pravatar.cc/40?u=${post.posted_by || post.id}`} alt="Author Avatar" width={40} height={40} />
               </div>
             </div>
             <div>
-              <div className="font-bold">Tác giả {post.userId || post.id}</div>
+              <div className="font-bold">Tác giả {post.posted_by || post.id}</div>
               <div className="text-xs text-base-content/60">18 giờ trước</div>
             </div>
           </div>
 
           {/* Nội dung bài viết (chữ) */}
-          <p>{post.body}</p>
+          <p>{post.content}</p>
         </div>
 
         {/* Hình ảnh của bài viết (nằm giữa) */}
         <Link href={`/feeds/${post.id}`}>
-          <ImageGrid images={post.images} />
+          <ImageGrid images={post.imageUrls} />
         </Link>
         {/* Phần tương tác (Like, Comment, Share) */}
         <div className="card-body">

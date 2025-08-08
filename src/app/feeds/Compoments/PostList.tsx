@@ -1,58 +1,59 @@
-// src/app/feed/PostList.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { fetchPosts, Post } from './action';
 import { Oval } from 'react-loader-spinner';
 import PostCard from './PostCard';
+import { posts } from '@/hook/post'; // 1. Import hook mới
 
-export default function PostList({ initialPosts }: { initialPosts: Post[] }) {
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+export default function PostList() {
+  // 2. Gọi hook để lấy dữ liệu và các trạng thái
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+  } = posts();
 
-  // `ref` sẽ được gắn vào phần tử cuối cùng của danh sách
-  // `inView` sẽ là `true` khi phần tử đó xuất hiện trên màn hình
   const { ref, inView } = useInView();
 
-  // Hàm để tải thêm bài viết
-  const loadMorePosts = async () => {
-    const nextPage = page + 1;
-    const newPosts = await fetchPosts(nextPage);
-
-    if (newPosts.length > 0) {
-      setPosts((prevPosts) => [...prevPosts, ...newPosts]);
-      setPage(nextPage);
-    } else {
-      // Không còn bài viết để tải
-      setHasMore(false);
-    }
-  };
-
-  // Khi `inView` thay đổi thành `true`, gọi hàm tải thêm
   useEffect(() => {
-    if (inView && hasMore) {
-      loadMorePosts();
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
-  }, [inView, hasMore]);
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  // 4. Xử lý các trạng thái ban đầu
+  if (isLoading) {
+    return <div className="flex justify-center p-10"><Oval height={50} width={50} color="#4fa94d" /></div>;
+  }
+
+  if (isError) {
+    return <div className="text-center text-red-500 p-10">Không thể tải bài viết.</div>;
+  }
+
+  // 5. "Làm phẳng" dữ liệu từ các trang thành một mảng duy nhất
+  const allPosts = data?.pages.flatMap(page => page.data) ?? [];
 
   return (
     <div className="w-full max-w-lg mx-auto space-y-6">
-      {posts.map((post) => (
-        // Chỉ cần một thẻ card duy nhất ở đây
+      {/* {allPosts.map((post) => (
         <PostCard key={post.id} post={post} />
-      ))
-      }
+      ))} */}
+      {allPosts.map((post, index) => (
+        <PostCard key={`${post.id}-${index}`} post={post} />
+      ))}
 
       {/* Phần tử theo dõi và hiển thị loading */}
-      {hasMore && (
+      {hasNextPage && (
         <div ref={ref} className="flex justify-center items-center p-4">
-          <Oval height={40} width={40} color="#4fa94d" />
+          {isFetchingNextPage && <Oval height={40} width={40} color="#4fa94d" />}
         </div>
       )}
 
-      {!hasMore && (
+      {!hasNextPage && (
         <div className="text-center p-4">
           <p>Bạn đã xem hết bài viết!</p>
         </div>

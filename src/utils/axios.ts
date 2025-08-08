@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 const instance = axios.create({

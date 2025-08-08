@@ -14,7 +14,7 @@ export interface IBookFilterRequest extends IPagination {
 }
 
 export interface ILoginRequest {
-  username: string;
+  email: string;
   password: string;
 }
 

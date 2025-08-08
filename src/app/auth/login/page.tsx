@@ -6,7 +6,7 @@ import { GiTreeDoor } from "react-icons/gi";
 
 /* eslint-disable @next/next/no-img-element */
 const Login = () => {
-  const [payload, setPayload] = useState({ username: "", password: "" });
+  const [payload, setPayload] = useState({ email: "", password: "" });
   const loginMutation = useLogin();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPayload({ ...payload, [e.target.name]: e.target.value });
@@ -37,9 +37,9 @@ const Login = () => {
                 <div className="form-control">
                   <input
                     type="text"
-                    name="username"
+                    name="email"
                     className="input input-bordered"
-                    placeholder="Username"
+                    placeholder="Email*"
                     onChange={handleChange}
                   />
                 </div>

@@ -2,12 +2,9 @@
 'use client';
 
 import Image from 'next/image';
+import { Post } from '@/common/interface';
 
-type ImageGridProps = {
-  images?: string[];
-};
-
-export default function ImageGrid({ images }: ImageGridProps) {
+export default function ImageGrid({ images }: { images: Post['imageUrls'] }) {
   if (!images || images.length === 0) {
     return null; // Không hiển thị gì nếu không có ảnh
   }
@@ -36,13 +33,13 @@ export default function ImageGrid({ images }: ImageGridProps) {
     return (
       <figure className="mt-4 grid grid-cols-2 grid-rows-2 gap-1 h-96">
         <div className="col-span-2 row-span-1 relative">
-            <Image src={images[0]} alt="Post image 1" layout="fill" className="object-cover" />
+            <img src={images[0]} alt="Post image 1" className="object-cover w-[400px] aspect-square" />
         </div>
         <div className="col-span-1 row-span-1 relative">
-            <Image src={images[1]} alt="Post image 2" layout="fill" className="object-cover" />
+            <img src={images[1]} alt="Post image 2"  className="object-cover w-[400px] aspect-square" />
         </div>
         <div className="col-span-1 row-span-1 relative">
-            <Image src={images[2]} alt="Post image 3" layout="fill" className="object-cover" />
+            <img src={images[2]} alt="Post image 3" className="object-cover w-[400px] aspect-square" />
         </div>
       </figure>
     );
@@ -54,7 +51,7 @@ export default function ImageGrid({ images }: ImageGridProps) {
     <figure className="mt-4 grid grid-cols-2 grid-rows-2 gap-1 h-96">
       {images.slice(0, 4).map((src, index) => (
         <div key={index} className="relative">
-          <Image src={src} alt={`Post image ${index + 1}`} layout="fill" className="object-cover" />
+          <img src={src} alt={`Post image ${index + 1}`} className="object-cover w-[400px] aspect-square" />
           {/* Overlay cho ảnh cuối cùng nếu còn nhiều ảnh hơn */}
           {index === 3 && remainingImages > 0 && (
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">

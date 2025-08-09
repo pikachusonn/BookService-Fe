@@ -24,13 +24,23 @@ export interface ISelectOptions {
 }
 
 export interface Post {
-  id: number;
+  id: string;
   posted_by: string | null;
+  userName: string | null;
+  avatarUrl: string | null;
   title: string;
   content: string;
   imageUrls: string[];
   created_at: string | null;
   updated_at: string | null;
+  commentCount: number;
+  allReationCount: number;
+  likeCount: number;
+  loveCount: number;
+  hahaCount: number;
+  sadCount: number;
+  wowCount: number;
+  angryCount: number;
 }
 
 export interface ApiPostResponse {

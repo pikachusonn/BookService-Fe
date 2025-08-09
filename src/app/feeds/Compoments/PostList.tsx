@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Oval } from 'react-loader-spinner';
-import PostCard from './PostCard';
+import PostCard from './PostCard'; // Import PostCardSummary component
 import { posts } from '@/hook/post'; // 1. Import hook mới
 
 export default function PostList() {

@@ -1,9 +1,4 @@
-import PostCard from './Compoments/PostCard';
 import PostList from './Compoments/PostList';
-import { postApi } from '@/api/PostApi';
-import { Post } from '@/common/interface';
-import { ApiPostResponse } from '@/common/interface';
-
 export default async function FeedPage() {
   // 1. Lấy trang dữ liệu đầu tiên trên server
   return (

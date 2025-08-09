@@ -26,3 +26,7 @@ export const useGetPostDetail = (postId: string) => {
     queryFn: () => postApi.getPostById(postId),
   });
 };
+
+export const toggleLike = async (postId: string, isLiked: boolean) => {
+  return postApi.toggleLike(postId, isLiked);
+};

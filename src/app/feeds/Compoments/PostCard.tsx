@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Post } from '@/common/interface';
 import Link from 'next/link';
 import ImageGrid from './ImageGrid';
-import { toggleLike } from './action';
+import { toggleLike } from '@/hook/post'; // Import hàm toggleLike từ API
 import { useState, useTransition } from 'react';
 
 // SVG Icons cho các nút
@@ -29,6 +29,7 @@ const ShareIcon = () => (
 
 
 export default function PostCard({ post }: { post: Post}) {
+  console.log("PostCard rendered:", post);
   // State để quản lý tương tác
   const [isLiked, setIsLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -48,7 +49,7 @@ export default function PostCard({ post }: { post: Post}) {
       startTransition(async () => {
         try {
           // Gọi hàm từ server
-          await toggleLike(post.id, !newLikedState);
+            await toggleLike(post.id, !newLikedState);
         } catch (error) {
           // Nếu có lỗi từ server, revert lại trạng thái giao diện
           console.error("Lỗi khi cập nhật like:", error);
@@ -77,11 +78,11 @@ export default function PostCard({ post }: { post: Post}) {
           <div className="flex items-center gap-3 mb-4">
             <div className="avatar">
               <div className="w-10 rounded-full">
-                <img src={`https://i.pravatar.cc/40?u=${post.posted_by || post.id}`} alt="Author Avatar" width={40} height={40} />
+                <img src={`https://i.pravatar.cc/40?u=${post.avatarUrl}`} alt="Author Avatar" width={40} height={40} />
               </div>
             </div>
             <div>
-              <div className="font-bold">Tác giả {post.posted_by || post.id}</div>
+              <div className="font-bold">{post.userName}</div>
               <div className="text-xs text-base-content/60">18 giờ trước</div>
             </div>
           </div>

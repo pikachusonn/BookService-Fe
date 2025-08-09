@@ -16,13 +16,13 @@ export default function PostDetailPage() {
   if (isError || !post) {
     return <div className="text-center p-10 text-red-500">Không thể tải hoặc không tìm thấy bài viết.</div>;
   }
-
+  console.log("Dữ liệu post nhận được:", post);
 
   return (
     <main className="container mx-auto p-4">
       <div className="w-full max-w-lg mx-auto">
         {/* Component PostCard đầy đủ sẽ được hiển thị ở đây */}
-        <PostCard post={post} />
+        <PostCard post={post?.data} />
       </div>
     </main>
   );

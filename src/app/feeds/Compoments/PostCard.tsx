@@ -5,8 +5,8 @@ import Image from 'next/image';
 import { Post } from '@/common/interface';
 import Link from 'next/link';
 import ImageGrid from './ImageGrid';
-import { toggleLike } from '@/hook/post'; // Import hàm toggleLike từ API
 import { useState, useTransition } from 'react';
+import CommentSection from './CommentSection';
 
 // SVG Icons cho các nút
 const HeartIcon = ({ filled }: { filled: boolean }) => (
@@ -29,52 +29,23 @@ const ShareIcon = () => (
 
 
 export default function PostCard({ post }: { post: Post}) {
-  console.log("PostCard rendered:", post);
-  // State để quản lý tương tác
   const [isLiked, setIsLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
-
-  // Giả lập số lượt thích và bình luận ban đầu
-  const [likeCount, setLikeCount] = useState(Math.floor(Math.random() * 1000));
-  const [commentCount, setCommentCount] = useState(Math.floor(Math.random() * 100));
   const [isPending, startTransition] = useTransition();
-  // Hàm xử lý khi nhấn "Thích"
   const handleLike = () => {
-      // 4. Optimistic Update: Cập nhật giao diện ngay lập tức
-      const newLikedState = !isLiked;
-      setIsLiked(newLikedState);
-      setLikeCount(prevCount => newLikedState ? prevCount + 1 : prevCount - 1);
-
-      // 5. Gọi Server Action trong startTransition để không làm đóng băng UI
-      startTransition(async () => {
-        try {
-          // Gọi hàm từ server
-            await toggleLike(post.id, !newLikedState);
-        } catch (error) {
-          // Nếu có lỗi từ server, revert lại trạng thái giao diện
-          console.error("Lỗi khi cập nhật like:", error);
-          setIsLiked(!newLikedState);
-          setLikeCount(prevCount => !newLikedState ? prevCount + 1 : prevCount - 1);
-        }
-      });
     };
 
-  // Hàm xử lý khi nhấn "Bình luận"
   const handleToggleComments = () => {
     setShowComments(!showComments);
   };
 
-  // Hàm xử lý khi nhấn "Chia sẻ"
   const handleShare = () => {
-    // Tạm thời chỉ thông báo, bạn có thể dùng navigator.share hoặc copy link
     alert(`Chia sẻ bài viết: ${post.title}`);
   };
 
     return (
       <div className="card bg-base-100 shadow-xl">
-        {/* Phần Header và Nội dung chữ */}
         <div className="card-body pb-0">
-          {/* Header: Avatar và Tên người đăng */}
           <div className="flex items-center gap-3 mb-4">
             <div className="avatar">
               <div className="w-10 rounded-full">
@@ -86,32 +57,22 @@ export default function PostCard({ post }: { post: Post}) {
               <div className="text-xs text-base-content/60">18 giờ trước</div>
             </div>
           </div>
-
-          {/* Nội dung bài viết (chữ) */}
           <p>{post.content}</p>
         </div>
-
-        {/* Hình ảnh của bài viết (nằm giữa) */}
         <Link href={`/feeds/${post.id}`}>
           <ImageGrid images={post.imageUrls} />
         </Link>
-        {/* Phần tương tác (Like, Comment, Share) */}
         <div className="card-body">
-          {/* Thống kê lượt thích và bình luận */}
           <div className="flex justify-between items-center text-sm text-base-content/60">
             <div className="flex items-center gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.562 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
               </svg>
-              <span>{likeCount}</span>
+              <span>{post.allReactionCount}</span>
             </div>
-            <span>{commentCount} bình luận</span>
+            <span>{post.commentCount} bình luận</span>
           </div>
-
-          {/* Dải phân cách */}
           <div className="divider my-2"></div>
-
-          {/* Các nút hành động */}
           <div className="card-actions justify-around">
             <button onClick={handleLike} className="btn btn-ghost gap-2" disabled={isPending}>
               <HeartIcon filled={isLiked} /> Thích
@@ -125,19 +86,7 @@ export default function PostCard({ post }: { post: Post}) {
           </div>
 
           {/* Phần bình luận (chỉ hiện khi được bật) */}
-          {showComments && (
-            <div className="mt-4">
-              <div className="divider"></div>
-              <h3 className="font-bold mb-2">Bình luận</h3>
-              <div className="space-y-2">
-                <p className="text-sm"><strong>Người dùng A:</strong> Bình luận mẫu...</p>
-              </div>
-              <div className="form-control mt-4">
-                <textarea className="textarea textarea-bordered h-24" placeholder="Viết bình luận của bạn..."></textarea>
-                <button className="btn btn-primary btn-sm mt-2 self-end">Gửi</button>
-              </div>
-            </div>
-          )}
+          {showComments && <CommentSection postId={post.id} />}
         </div>
       </div>
     );

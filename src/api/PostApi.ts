@@ -1,13 +1,12 @@
 import instance from '@/utils/axios'; // Giả sử bạn đã có file cấu hình axios
 import { ApiPostResponse } from '@/common/interface';
-import { Post } from '@/common/interface';
 
 const getPosts = async ({ pageParam = 0 }) => {
   const limit = 10;
   const res = await instance.get<ApiPostResponse>(
     `/api/v1/library/social?page=${pageParam}&size=${limit}`
   );
-  return res.data; // Trả về toàn bộ object { data, metadata }
+  return res.data;
 };
 const getPostById = async (id: string) => {
   try {

@@ -1,7 +1,7 @@
 export const QUERY_KEYS = {
   BOOK_LIST: "bookList",
   BOOK_DETAIL: "bookDetail",
-  CHAPTER_DETAIL: "chapterDetail"
+  CHAPTER_DETAIL: "chapterDetail",
 };
 
 export const CATEGORIES = [
@@ -35,3 +35,5 @@ export const CATEGORIES = [
   "Josei",
   "Slice of Life",
 ];
+
+export const reactions = ["LOVE", "LIKE", "ANGRY", "SAD"];

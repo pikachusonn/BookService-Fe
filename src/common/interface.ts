@@ -34,13 +34,15 @@ export interface Post {
   created_at: string | null;
   updated_at: string | null;
   commentCount: number;
-  allReationCount: number;
+  reactionCount: number;
   likeCount: number;
   loveCount: number;
   hahaCount: number;
   sadCount: number;
   wowCount: number;
   angryCount: number;
+  currentUserReaction?: any;
+  reactions?: any[];
 }
 
 export interface ApiPostResponse {
@@ -51,6 +53,12 @@ export interface ApiPostResponse {
     totalPages: number;
     totalElements: number;
   };
+}
+
+export interface IUpsertReaction {
+  type: string;
+  postId: string;
+  reactionId?: string;
 }
 
 export type MetaData = {

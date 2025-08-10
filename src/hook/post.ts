@@ -1,15 +1,16 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { postApi } from '@/api/PostApi';
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
+import { postApi } from "@/api/PostApi";
 import { useQuery } from "@tanstack/react-query";
+import { IUpsertReaction } from "@/common/interface";
 
-export const posts = () => {
+export const usePosts = () => {
   return useInfiniteQuery({
-    queryKey: ['posts'], // Key định danh cho query này
+    queryKey: ["posts"], // Key định danh cho query này
     queryFn: postApi.getPosts, // Hàm để lấy dữ liệu
     initialPageParam: 0, // Trang bắt đầu (khớp với Spring Pageable)
-    
+
     // Hàm này quyết định trang tiếp theo là trang nào
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (lastPage) => {
       // Dựa vào metadata từ API của bạn
       if (lastPage.metadata.page < lastPage.metadata.totalPages - 1) {
         return lastPage.metadata.page + 1;
@@ -22,11 +23,27 @@ export const posts = () => {
 
 export const useGetPostDetail = (postId: string) => {
   return useQuery({
-    queryKey: ['post', postId],
+    queryKey: ["post", postId],
     queryFn: () => postApi.getPostById(postId),
   });
 };
 
 export const toggleLike = async (postId: string, isLiked: boolean) => {
   return postApi.toggleLike(postId, isLiked);
+};
+
+export const useUpsertReaction = () => {
+  return useMutation({
+    mutationFn: (params: IUpsertReaction) => {
+      return postApi.upsertReaction(params);
+    },
+  });
+};
+
+export const useRemoveReaction = () => {
+  return useMutation({
+    mutationFn: (postId: string) => {
+      return postApi.removeReaction(postId);
+    },
+  });
 };

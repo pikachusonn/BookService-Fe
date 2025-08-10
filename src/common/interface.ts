@@ -41,6 +41,8 @@ export interface Post {
   sadCount: number;
   wowCount: number;
   angryCount: number;
+  currentUserReaction?: any;
+  reactions?: any[];
   comments?: PostComment[];
 }
 
@@ -54,6 +56,11 @@ export interface ApiPostResponse {
   };
 }
 
+export interface IUpsertReaction {
+  type: string;
+  postId: string;
+  reactionId?: string;
+}
 export type ApiCommentResponse = {
     status: string;
     data: PostComment[];

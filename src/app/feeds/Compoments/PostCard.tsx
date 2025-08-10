@@ -12,6 +12,8 @@ import { FaAngry, FaSadCry } from "react-icons/fa";
 import { BiSolidLike } from "react-icons/bi";
 import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
+import CommentSection from './CommentSection';
+
 
 const CommentIcon = () => (
   <svg
@@ -50,9 +52,6 @@ const ShareIcon = () => (
 export default function PostCard({ post }: { post: Post }) {
   const queryClient = useQueryClient();
   const [showComments, setShowComments] = useState(false);
-  const [commentCount, setCommentCount] = useState(
-    Math.floor(Math.random() * 100)
-  );
 
   const upsertReactionMuation = useUpsertReaction();
   const removeReatcionMuation = useRemoveReaction();
@@ -215,7 +214,7 @@ export default function PostCard({ post }: { post: Post }) {
             </svg>
             <span>{post?.reactions?.length}</span>
           </div>
-          <span>{commentCount} bình luận</span>
+          <span>{post.commentCount} bình luận</span>
         </div>
 
         {/* Dải phân cách */}
@@ -235,27 +234,9 @@ export default function PostCard({ post }: { post: Post }) {
           </button>
         </div>
 
-        {/* Phần bình luận (chỉ hiện khi được bật) */}
-        {showComments && (
-          <div className="mt-4">
-            <div className="divider"></div>
-            <h3 className="font-bold mb-2">Bình luận</h3>
-            <div className="space-y-2">
-              <p className="text-sm">
-                <strong>Người dùng A:</strong> Bình luận mẫu...
-              </p>
-            </div>
-            <div className="form-control mt-4">
-              <textarea
-                className="textarea textarea-bordered h-24"
-                placeholder="Viết bình luận của bạn..."
-              ></textarea>
-              <button className="btn btn-primary btn-sm mt-2 self-end">
-                Gửi
-              </button>
-            </div>
-          </div>
-        )}
+       
+          {/* Phần bình luận (chỉ hiện khi được bật) */}
+          {showComments && <CommentSection postId={post.id} />}
       </div>
     </div>
   );

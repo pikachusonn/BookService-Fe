@@ -34,7 +34,7 @@ export interface Post {
   created_at: string | null;
   updated_at: string | null;
   commentCount: number;
-  reactionCount: number;
+  allReactionCount: number;
   likeCount: number;
   loveCount: number;
   hahaCount: number;
@@ -43,6 +43,7 @@ export interface Post {
   angryCount: number;
   currentUserReaction?: any;
   reactions?: any[];
+  comments?: PostComment[];
 }
 
 export interface ApiPostResponse {
@@ -60,10 +61,38 @@ export interface IUpsertReaction {
   postId: string;
   reactionId?: string;
 }
+export type ApiCommentResponse = {
+    status: string;
+    data: PostComment[];
+};
 
 export type MetaData = {
   page: number;
   size: number;
   totalPages: number;
   totalElements: number;
+};
+
+export type UserDTO = {
+  id: string;
+  username: string;
+  email: string;
+  avatarUrl: string | null;
+};
+
+// 2. Định nghĩa kiểu dữ liệu cho một Comment
+export type PostComment = {
+  id: string;
+  content: string;
+  user: UserDTO;
+  replyCount: number;
+  parentCommentId: string | null;
+  likeCount: number;
+  loveCount: number;
+  hahaCount: number;
+  sadCount: number;
+  wowCount: number;
+  angryCount: number;
+  created_at: string;
+  updated_at: string;
 };

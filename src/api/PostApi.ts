@@ -5,7 +5,7 @@ const getPosts = async ({ pageParam = 0 }) => {
   const res = await instance.get<ApiPostResponse>(
     `/api/v1/library/social?page=${pageParam}&size=${limit}`
   );
-  return res.data; // Trả về toàn bộ object { data, metadata }
+  return res.data;
 };
 const getPostById = async (id: string) => {
   try {

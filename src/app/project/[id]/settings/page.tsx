@@ -1,7 +1,8 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useState } from "react";
-import Workflow from "./Workflow";
 
+const Workflow = dynamic(() => import("./Workflow"), { ssr: false });
 const ProjectSettingPage = () => {
   const [activeTab, setActiveTab] = useState("workflow"); // default tab
 

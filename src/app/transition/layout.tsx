@@ -1,6 +1,7 @@
 "use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
@@ -35,7 +36,7 @@ export default function RootLayout({
       >
         <QueryClientProvider client={queryClient}>
           <Toaster />
-          {/* <Sidebar /> */}
+          <Sidebar />
           <div className="flex-1 bg-base-100">
             <Header />
             {children}

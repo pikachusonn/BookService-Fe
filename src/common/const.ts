@@ -2,6 +2,7 @@ export const QUERY_KEYS = {
   BOOK_LIST: "bookList",
   BOOK_DETAIL: "bookDetail",
   CHAPTER_DETAIL: "chapterDetail",
+  WORKFLOW: "workflow",
 };
 
 export const CATEGORIES = [

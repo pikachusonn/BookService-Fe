@@ -1,9 +1,11 @@
 "use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import ProjectHeader from "./[id]/components/ProjectHeader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,10 +37,15 @@ export default function RootLayout({
       >
         <QueryClientProvider client={queryClient}>
           <Toaster />
-          {/* <Sidebar /> */}
-          <div className="flex-1 bg-base-100">
+          <div className="flex flex-col w-full bg-base-100">
             <Header />
-            {children}
+            <div className="flex">
+              <Sidebar />
+              <div className="flex-1 bg-base-200">
+                <ProjectHeader />
+                {children}
+              </div>
+            </div>
           </div>
         </QueryClientProvider>
       </body>

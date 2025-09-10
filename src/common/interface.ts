@@ -62,8 +62,8 @@ export interface IUpsertReaction {
   reactionId?: string;
 }
 export type ApiCommentResponse = {
-    status: string;
-    data: PostComment[];
+  status: string;
+  data: PostComment[];
 };
 
 export type MetaData = {
@@ -96,3 +96,41 @@ export type PostComment = {
   created_at: string;
   updated_at: string;
 };
+
+export interface IStatusRequest {
+  id: string;
+  statusName: string;
+  color: string;
+  position: string;
+  data?: string;
+  isStart?: boolean;
+  isEnd?: boolean;
+  // workflowId: string;
+}
+
+export interface ITransitionRequest {
+  id: string;
+  source: string;
+  target: string;
+  label: string;
+}
+
+export interface IUpdateWorkflow {
+  addedStatus: IStatusRequest[];
+  updatedStatus: IStatusRequest[];
+  deletedStatus: IStatusRequest[];
+  addedTransitions: ITransitionRequest[];
+  updatedTransitions: ITransitionRequest[];
+  deletedTransitions: ITransitionRequest[];
+}
+
+export interface IStatusData {
+  label: string;
+  color: string;
+  isStart?: boolean;
+  isEnd?: boolean;
+}
+export interface IStatus {
+  id: string;
+  data: IStatusData;
+}

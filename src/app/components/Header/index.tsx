@@ -5,7 +5,7 @@ import {
   IoLogOutOutline,
   IoSearchOutline,
 } from "react-icons/io5";
-import { RiHome4Line } from "react-icons/ri";
+import { FcSteam } from "react-icons/fc";
 import CommonIconButton from "../CommonIconButton";
 import { HiOutlineBell } from "react-icons/hi2";
 import CommonAvatar from "../CommonAvatar";
@@ -24,19 +24,9 @@ const Header = () => {
   }, []);
   const router = useRouter();
   return (
-    <div className="flex items-center justify-between p-4">
-      <div className="breadcrumbs text-lg font-md">
-        <ul>
-          <li>
-            <a>
-              <RiHome4Line />
-              HomePage
-            </a>
-          </li>
-          <li>
-            <a>Doujinshi</a>
-          </li>
-        </ul>
+    <div className="flex items-center justify-between p-4 border-b border-black/20">
+      <div>
+        <FcSteam size={40}/>
       </div>
       <div className="flex items-center justify-end gap-4">
         <label className="input bg-base-200 border-none rounded-full w-[400px] ">

@@ -123,3 +123,14 @@ export interface IUpdateWorkflow {
   updatedTransitions: ITransitionRequest[];
   deletedTransitions: ITransitionRequest[];
 }
+
+export interface IStatusData {
+  label: string;
+  color: string;
+  isStart?: boolean;
+  isEnd?: boolean;
+}
+export interface IStatus {
+  id: string;
+  data: IStatusData;
+}

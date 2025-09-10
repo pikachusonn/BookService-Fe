@@ -1,15 +1,12 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
 import {
-  ReactFlow,
   applyNodeChanges,
   applyEdgeChanges,
   addEdge,
-  Background,
-  MiniMap,
-  Controls,
   Node,
   Edge,
+  ReactFlowProvider,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { IoMdAdd } from "react-icons/io";
@@ -18,10 +15,15 @@ import { FaRegSave } from "react-icons/fa";
 import { LuTrash } from "react-icons/lu";
 import { useGetWorkflowByProject, useUpdateWorkflow } from "@/hook/workflow";
 import { IUpdateWorkflow } from "@/common/interface";
+import StatusMenu from "./StatusMenu";
+import clsx from "clsx";
+import WorkflowMap from "./WorkflowMap";
 
 const Workflow = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
+
+  const [focusedNode, setFocusedNode] = useState<any>(null);
 
   const { data: workflowData, isLoading } = useGetWorkflowByProject(
     "396883af-734c-421a-ada4-13dc6b896fff"
@@ -300,24 +302,43 @@ const Workflow = () => {
           </div>
         )}
       </div>
-      <div className="w-full flex-1">
+      <div
+        className={clsx(
+          "w-full flex-1",
+          isLoading && "items-center justify-center"
+        )}
+      >
         {isLoading ? (
           <span className="loading loading-spinner loading-xl"></span>
         ) : (
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            fitView
-          >
-            <Controls />
-            <MiniMap />
-            <Background />
-          </ReactFlow>
+          <ReactFlowProvider>
+            <WorkflowMap
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              onNodeClick={(e, node) => {
+                console.log(e?.clientX, e?.clientY);
+
+                // const nodeEl = document.querySelector(`[data-id="${node.id}"]`);
+                setFocusedNode({
+                  status: node,
+                  x: e.clientX, // mouse X position (page-aware)
+                  y: e.clientY, // mouse Y position (page-aware)
+                });
+              }}
+            />
+          </ReactFlowProvider>
         )}
       </div>
+      {!!focusedNode && (
+        <StatusMenu
+          status={focusedNode?.status}
+          x={focusedNode?.x}
+          y={focusedNode?.y}
+        />
+      )}
     </div>
   );
 };
